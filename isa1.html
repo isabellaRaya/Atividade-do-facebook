@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liliane Beatriz</title>
+    <!-- <img src="imagem programação.webp"> -->
+    <style>
+        .tarefaDiv{
+            background-color: rgb(128, 0, 51);
+        }
+        .albumDiv{
+            background-color: rgb(132, 0, 255);
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        FUNÇÕES FECTH DE Isabella Rayane
+<div id="container">
+
+</div>
+
+<script>
+    let url="https://jsonplaceholder.typicode.com/users";
+    fetch(url).then(response => response.json()).then((usuarios)=>{
+        for (let i = 0; i < usuarios.length; i++) {
+            let container = document.getElementById("container");
+            let usuario = usuarios[i];
+            container.innerHTML += `<p>${usuario.id} : ${usuario.name}</p>`;
+            container.innerHTML += `<div class="tarefaDiv" id="tarefas${usuario.id}"></div>`;
+            container.innerHTML += `<div class="albumDiv" id="albuns${usuario.id}"></div>`;
+
+            let urlTarefas = `https://jsonplaceholder.typicode.com/todos?userid=${usuario.id}`;
+             fetch(urlTarefas).then(response => response.json()).then((tarefas)=>{
+                for(let j = 0; j < tarefas.length; j++){
+                    let tarefasDiv = document.getElementById(`tarefas${usuario.id}`);
+                    let tarefa = tarefas[j];
+                    tarefasDiv.innerHTML+= `<p style="margin-left:50px">${tarefa.title} : ${tarefa.completed}</p>`;
+                }
+            });
+
+            let urlalbuns = `https://jsonplaceholder.typicode.com/albums?userid=${usuario.id}`;
+            fetch(urlalbuns).then(response => response.json()).then((albuns)=>{
+                for(let a = 0; a < albuns.length; a++){
+                    let albunsDiv = document.getElementById(`albuns${usuario.id}`);
+                    let album = albuns[a];
+                    albunsDiv.innerHTML+= `<p style="margin-left:100px">${album.id} : ${album.title}</p>`;
+                }
+            });
+        }
+    });
+    
+</script>
+</body>
+</html>
